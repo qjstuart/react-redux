@@ -1,6 +1,8 @@
 import { createStore } from "redux";
 
-function myReducer(state = { count: 0 }, action) {
+const initialState = { count: 0 };
+
+function myReducer(state = initialState, action) {
   if (action.type === "increment") {
     return {
       ...state,
@@ -11,6 +13,12 @@ function myReducer(state = { count: 0 }, action) {
     return {
       ...state,
       count: state.count - 1,
+    };
+  }
+  if (action.type === "increase") {
+    return {
+      ...state,
+      count: state.count + action.amount,
     };
   }
 

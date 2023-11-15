@@ -1,12 +1,12 @@
-import { createStore } from "redux";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const initialState = { count: 0, showCount: true };
+const initialCounterState = { count: 0, showCount: true };
+const initialAuthState = { isAuthenticated: false };
 
 // slices can be in separate files
 const countSlice = createSlice({
   name: "counter",
-  initialState,
+  initialState: initialCounterState,
   reducers: {
     increment(state) {
       state.count++;
@@ -23,39 +23,29 @@ const countSlice = createSlice({
   },
 });
 
-// function myReducer(state = initialState, action) {
-//   if (action.type === "increment") {
-//     return {
-//       ...state,
-//       count: state.count + 1,
-//     };
-//   }
-//   if (action.type === "decrement") {
-//     return {
-//       ...state,
-//       count: state.count - 1,
-//     };
-//   }
-//   if (action.type === "increase") {
-//     return {
-//       ...state,
-//       count: state.count + action.amount,
-//     };
-//   }
-//   if (action.type === "toggle_show_count") {
-//     return {
-//       ...state,
-//       showCount: !state.showCount,
-//     };
-//   }
+console.log(countSlice);
 
-//   return state;
-// }
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+  },
+});
 
+// call configureStore() once
+// regardless of how many slices
 const store = configureStore({
-  reducer: countSlice.reducer,
+  // reducer: countSlice.reducer,
+  reducer: { count: countSlice.reducer, auth: authSlice.reducer },
 });
 
 export const countActions = countSlice.actions;
+export const authActions = authSlice.actions;
 
 export default store;
